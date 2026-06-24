@@ -21,7 +21,6 @@ jobs:
         working-directory: frontend
         run: |
           npm install
-          cp .env.production .env.production
           npm run build
 
       - name: Install backend dependencies
@@ -48,47 +47,14 @@ jobs:
           target: "/var/www/prod"
           strip_components: 0
 
-      - name: Deploy PM2 ecosystem config
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "ecosystem.config.js"
-          target: "/home/${{ secrets.EC2_USER }}"
-
-      - name: Deploy Nginx configs
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "nginx/sites-available/"
-          target: "/tmp/nginx-sites"
-          strip_components: 2
-
-      - name: Restart production backend & reload Nginx
+      - name: Restart production backend
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Copy env file
             cd /var/www/prod/backend
             cp .env.production .env 2>/dev/null || true
-
-            # Restart production backend via PM2
-            pm2 restart cricbid-prod || pm2 start /home/$USER/ecosystem.config.js --only cricbid-prod
+            pm2 restart backend-prod || pm2 start /home/$USER/ecosystem.config.js --only backend-prod
             pm2 save
-
-            # Deploy Nginx site configs (skip template)
-            for f in /tmp/nginx-sites/*.conf; do
-              [[ "$f" == *"_template"* ]] && continue
-              sudo cp "$f" /etc/nginx/sites-available/
-              name=$(basename "$f" .conf)
-              sudo ln -sf /etc/nginx/sites-available/"$name".conf /etc/nginx/sites-enabled/"$name".conf
-            done
-
-            # Validate and reload Nginx
-            sudo nginx -t && sudo systemctl reload nginx
