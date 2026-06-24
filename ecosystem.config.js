@@ -42,6 +42,22 @@ module.exports = {
     },
 
     // ─── Add new apps below ──────────────────────────────────────────────────
+
+    // ─── Notes ──────────────────────────────────────────────────────────────
+    {
+      name: 'notes-prod',
+      cwd: '/var/www/apps/notes/backend',
+      script: 'src/index.js',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      env: {
+        NODE_ENV: 'production',
+        PORT: 5000,
+        DB_PATH: '/var/www/apps/notes/data/notes.db',
+      },
+    },
+
     // {
     //   name: 'myapp-prod',
     //   cwd: '/var/www/apps/myapp/backend',
