@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/prajyot/Auctioner-Frontend/src/pages -type f -name \"*.tsx\" | sort)",
+      "Bash(grep -r \"axios\\\\|fetch\\\\|api\\\\|endpoint\" /Users/prajyot/Auctioner-Frontend/src --include=\"*.ts\" --include=\"*.tsx\" | grep -E \"\\(axios\\\\.|fetch\\\\\\(|\\\\.get\\\\\\(|\\\\.post\\\\\\(|\\\\.put\\\\\\(|\\\\.delete\\\\\\(|\\\\/api\\)\" | head -100)",
+      "Bash(find /Users/prajyot/Auctioner-Frontend -name \"*.json\" -not -path \"*/node_modules/*\" | grep -E \"\\(package\\\\.json|tsconfig|tailwind\\)\" | head -10)",
+      "Bash(mv /Users/prajyot/Auctioner-Frontend /Users/prajyot/Destruction/cricbid-v0/frontend)",
+      "Bash(mv /Users/prajyot/auctioner-backend /Users/prajyot/Destruction/cricbid-v0/backend)",
+      "Bash(ssh -i \"/Users/prajyot/Keyssss/cricBid.pem\" -o StrictHostKeyChecking=no ubuntu@ec2-13-126-129-191.ap-south-1.compute.amazonaws.com \"sudo apt update -y && sudo apt upgrade -y 2>&1 | tail -5\")",
+      "Bash(git --version)",
+      "Bash(brew install *)",
+      "Bash(gh repo *)",
+      "Bash(git init *)",
+      "Bash(git checkout *)",
+      "Bash(git remote *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}
