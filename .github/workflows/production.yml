@@ -56,5 +56,5 @@ jobs:
           script: |
             cd /var/www/prod/backend
             cp .env.production .env 2>/dev/null || true
-            pm2 restart backend-prod || pm2 start /home/ubuntu/ecosystem.config.js --only backend-prod
+            pm2 restart backend-prod || pm2 start /home/$USER/ecosystem.config.js --only backend-prod
             pm2 save

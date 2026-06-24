@@ -57,5 +57,5 @@ jobs:
           script: |
             cd /var/www/staging/backend
             cp .env.staging .env 2>/dev/null || true
-            pm2 restart backend-staging || pm2 start /home/ubuntu/ecosystem.config.js --only backend-staging
+            pm2 restart backend-staging || pm2 start /home/$USER/ecosystem.config.js --only backend-staging
             pm2 save
